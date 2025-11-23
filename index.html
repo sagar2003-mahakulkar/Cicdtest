@@ -1,109 +1,529 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Colorful Login Page</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ShopEase — E-commerce</title>
   <style>
+    :root {
+      --primary: #6c5ce7;
+      --accent: #00b894;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+      --text: #333;
+      --danger: #ff7675;
+      --warning: #fdcb6e;
+    }
+
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      height: 100vh;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, #f5f6fa, #e3fdfd 30%, #ffe6fa 70%);
+      background-attachment: fixed;
+    }
+
+    /* Header / Navbar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.75);
+      border-bottom: 1px solid #eaeaea;
+    }
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 18px;
       display: flex;
-      justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a6c1ee);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      justify-content: space-between;
     }
-
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.5px;
     }
-
-    .login-container {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      width: 320px;
-      text-align: center;
-    }
-
-    .login-container h2 {
-      margin-bottom: 20px;
-      color: #333;
-      font-weight: bold;
-    }
-
-    .login-container input[type="text"],
-    .login-container input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
+    .brand .logo {
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
-      background: #f1f1f1;
-      font-size: 14px;
-      transition: 0.3s;
-    }
-
-    .login-container input[type="text"]:focus,
-    .login-container input[type="password"]:focus {
-      background: #e0f7fa;
-      outline: none;
-      box-shadow: 0 0 5px #00bcd4;
-    }
-
-    .login-container button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #ff6a00, #ee0979);
+      background: linear-gradient(135deg, var(--primary), #a29bfe);
+      display: grid;
+      place-items: center;
       color: #fff;
+      font-size: 18px;
+      box-shadow: 0 6px 18px rgba(108, 92, 231, 0.35);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .search {
+      position: relative;
+      flex: 1;
+    }
+    .search input {
+      width: 260px;
+      max-width: 45vw;
+      padding: 10px 36px 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      transition: box-shadow 0.2s;
+      background: #fff;
+    }
+    .search input:focus {
+      box-shadow: 0 0 0 3px rgba(108,92,231,0.15);
+      border-color: var(--primary);
+    }
+    .search .icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
       font-size: 16px;
-      font-weight: bold;
+    }
+    .btn {
+      padding: 10px 12px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-weight: 600;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #a29bfe);
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(108,92,231,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-1px); }
+    .cart {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--dark);
+      font-weight: 700;
+      background: #fff;
+      border: 1px solid #eee;
+    }
+    .cart .badge {
+      background: var(--danger);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
     }
 
-    .login-container button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    /* Hero */
+    .hero {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 24px;
+      background: linear-gradient(135deg, #81ecec, #74b9ff);
+      border-radius: 16px;
+      color: #0b2447;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+      box-shadow: 0 14px 30px rgba(116,185,255,0.35);
+    }
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      color: #082032;
+    }
+    .hero p { margin: 0 0 16px; }
+    .hero .cta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .hero .img {
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      color: #2d3436;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.6);
     }
 
-    .extra {
-      margin-top: 15px;
+    /* Categories */
+    .categories {
+      max-width: 1100px;
+      margin: 20px auto 6px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+    .chip {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 999px;
+      padding: 10px 12px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--dark);
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+      user-select: none;
+    }
+    .chip:hover {
+      background: #f7f7ff;
+      transform: translateY(-1px);
+    }
+
+    /* Product grid */
+    .section-title {
+      max-width: 1100px;
+      margin: 20px auto 6px;
+      padding: 0 24px;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: 0.3px;
+    }
+    .grid {
+      max-width: 1100px;
+      margin: 8px auto 40px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+    }
+    .card-img {
+      background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+      height: 160px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    .card-body {
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+    .title {
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .price-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .price {
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .mrp {
+      color: #888;
+      text-decoration: line-through;
       font-size: 14px;
     }
-
-    .extra a {
-      color: #ee0979;
-      text-decoration: none;
-      font-weight: bold;
+    .badge-off {
+      background: var(--warning);
+      color: #3a3a3a;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .rating {
+      color: #f1c40f;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-outline {
+      background: #fff;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    .btn-outline:hover {
+      background: rgba(108,92,231,0.08);
     }
 
-    .extra a:hover {
-      text-decoration: underline;
+    /* Footer */
+    footer {
+      background: #fafafa;
+      border-top: 1px solid #eee;
+      margin-top: 30px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      color: #555;
+    }
+    .footer-inner h4 { margin: 0 0 8px; color: var(--dark); }
+    .footer-inner a { color: #666; text-decoration: none; }
+    .footer-inner a:hover { color: var(--primary); }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+      .categories { grid-template-columns: repeat(4, 1fr); }
+      .hero { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .categories { grid-template-columns: repeat(3, 1fr); }
+      .nav { padding: 10px 14px; }
+      .search input { width: 180px; }
+    }
+    @media (max-width: 420px) {
+      .grid { grid-template-columns: 1fr; }
+      .categories { grid-template-columns: repeat(2, 1fr); }
+      .search input { width: 150px; }
     }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>Welcome Back!</h2>
-    <form action="/login" method="post">
-      <input type="text" name="username" placeholder="Username or Email" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
-    <div class="extra">
-      <p><a href="#">Forgot Password?</a></p>
-      <p>New here? <a href="#">Sign Up</a></p>
+  <!-- Header -->
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">SE</div>
+        ShopEase
+      </div>
+      <div class="nav-actions">
+        <div class="search">
+          <input id="searchInput" type="text" placeholder="Search products..." />
+          <span class="icon">🔎</span>
+        </div>
+        <button class="btn btn-primary">Sign in</button>
+        <button class="btn cart" id="cartBtn">
+          🛒 Cart <span class="badge" id="cartCount">0</span>
+        </button>
+      </div>
     </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <h1>Festive Mega Sale</h1>
+      <p>Up to 60% off on electronics, fashion, and home essentials. Free shipping on orders over ₹999.</p>
+      <div class="cta">
+        <button class="btn btn-primary" onclick="scrollToGrid()">Shop now</button>
+        <button class="btn btn-outline" onclick="filterCategory('All')">Browse all</button>
+      </div>
+    </div>
+    <div class="img">Colorful Deals • New Arrivals</div>
+  </section>
+
+  <!-- Categories -->
+  <div class="categories">
+    <div class="chip" onclick="filterCategory('All')">All</div>
+    <div class="chip" onclick="filterCategory('Electronics')">Electronics</div>
+    <div class="chip" onclick="filterCategory('Fashion')">Fashion</div>
+    <div class="chip" onclick="filterCategory('Home')">Home</div>
+    <div class="chip" onclick="filterCategory('Beauty')">Beauty</div>
+    <div class="chip" onclick="filterCategory('Sports')">Sports</div>
   </div>
+
+  <!-- Products -->
+  <h3 class="section-title">Featured products</h3>
+  <section class="grid" id="productGrid">
+    <!-- Card 1 -->
+    <article class="card" data-category="Electronics">
+      <div class="card-img">Bluetooth Headphones</div>
+      <div class="card-body">
+        <div class="title">AeroBeat X200 Wireless</div>
+        <div class="price-row">
+          <div class="price">₹2,499</div>
+          <div class="mrp">₹3,999</div>
+          <div class="badge-off">38% off</div>
+        </div>
+        <div class="rating">⭐⭐⭐⭐☆ (1,245)</div>
+        <div class="actions">
+          <button class="btn btn-outline" onclick="addToCart('AeroBeat X200')">Add to cart</button>
+          <button class="btn btn-primary">Buy now</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="card" data-category="Fashion">
+      <div class="card-img" style="background: linear-gradient(135deg,#ff7675,#fd79a8);">Sneakers</div>
+      <div class="card-body">
+        <div class="title">Stride Runner Pro</div>
+        <div class="price-row">
+          <div class="price">₹1,899</div>
+          <div class="mrp">₹2,499</div>
+          <div class="badge-off">24% off</div>
+        </div>
+        <div class="rating">⭐⭐⭐⭐☆ (823)</div>
+        <div class="actions">
+          <button class="btn btn-outline" onclick="addToCart('Stride Runner Pro')">Add to cart</button>
+          <button class="btn btn-primary">Buy now</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="card" data-category="Home">
+      <div class="card-img" style="background: linear-gradient(135deg,#74b9ff,#a29bfe);">Smart LED Lamp</div>
+      <div class="card-body">
+        <div class="title">LumaGlow Smart Lamp</div>
+        <div class="price-row">
+          <div class="price">₹999</div>
+          <div class="mrp">₹1,499</div>
+          <div class="badge-off">33% off</div>
+        </div>
+        <div class="rating">⭐⭐⭐⭐⭐ (2,004)</div>
+        <div class="actions">
+          <button class="btn btn-outline" onclick="addToCart('LumaGlow Smart Lamp')">Add to cart</button>
+          <button class="btn btn-primary">Buy now</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 4 -->
+    <article class="card" data-category="Beauty">
+      <div class="card-img" style="background: linear-gradient(135deg,#ffeaa7,#fab1a0);">Skincare Set</div>
+      <div class="card-body">
+        <div class="title">Radiance Essentials Kit</div>
+        <div class="price-row">
+          <div class="price">₹1,299</div>
+          <div class="mrp">₹1,799</div>
+          <div class="badge-off">28% off</div>
+        </div>
+        <div class="rating">⭐⭐⭐⭐☆ (587)</div>
+        <div class="actions">
+          <button class="btn btn-outline" onclick="addToCart('Radiance Essentials Kit')">Add to cart</button>
+          <button class="btn btn-primary">Buy now</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 5 -->
+    <article class="card" data-category="Sports">
+      <div class="card-img" style="background: linear-gradient(135deg,#00b894,#55efc4);">Fitness Band</div>
+      <div class="card-body">
+        <div class="title">PulseTrack V3</div>
+        <div class="price-row">
+          <div class="price">₹2,199</div>
+          <div class="mrp">₹2,999</div>
+          <div class="badge-off">27% off</div>
+        </div>
+        <div class="rating">⭐⭐⭐⭐☆ (1,102)</div>
+        <div class="actions">
+          <button class="btn btn-outline" onclick="addToCart('PulseTrack V3')">Add to cart</button>
+          <button class="btn btn-primary">Buy now</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 6 -->
+    <article class="card" data-category="Electronics">
+      <div class="card-img" style="background: linear-gradient(135deg,#6c5ce7,#00cec9);">Smartphone</div>
+      <div class="card-body">
+        <div class="title">Nova X Lite 128GB</div>
+        <div class="price-row">
+          <div class="price">₹12,499</div>
+          <div class="mrp">₹14,999</div>
+          <div class="badge-off">17% off</div>
+        </div>
+        <div class="rating">⭐⭐⭐⭐⭐ (3,541)</div>
+        <div class="actions">
+          <button class="btn btn-outline" onclick="addToCart('Nova X Lite 128GB')">Add to cart</button>
+          <button class="btn btn-primary">Buy now</button>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <h4>ShopEase</h4>
+        <p>Your colorful marketplace for everyday essentials and exciting deals.</p>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <p><a href="#">Help center</a></p>
+        <p><a href="#">Returns</a></p>
+        <p><a href="#">Shipping</a></p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <p><a href="#">About us</a></p>
+        <p><a href="#">Careers</a></p>
+        <p><a href="#">Press</a></p>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <p><a href="#">Privacy policy</a></p>
+        <p><a href="#">Terms of use</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const cartCountEl = document.getElementById('cartCount');
+    const productGrid = document.getElementById('productGrid');
+    const searchInput = document.getElementById('searchInput');
+
+    function addToCart(name) {
+      const count = Number(cartCountEl.textContent) + 1;
+      cartCountEl.textContent = count;
+      alert(`${name} added to cart!`);
+    }
+
+    function scrollToGrid() {
+      productGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function filterCategory(category) {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const match = category === 'All' || card.dataset.category === category;
+        card.style.display = match ? '' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      document.querySelectorAll('.card').forEach(card => {
+        const title = card.querySelector('.title').textContent.toLowerCase();
+        const visible = !q || title.includes(q);
+        card.style.display = visible ? '' : 'none';
+      });
+    });
+  </script>
 </body>
 </html>
